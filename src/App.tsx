@@ -1,14 +1,21 @@
 // src/App.tsx
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React from "react";
 import Layout from "./components/organisms/Layout";
+import { ExpansionProvider } from "./context/ExpansionContext";
+import InventoryPage from "./pages/InventoryPage";
+
+const theme = createTheme();
 
 const App: React.FC = () => {
   return (
-    <Layout>
-      {/* Put your page content here */}
-      <h2>Main Content</h2>
-      <p>Welcome to the Inventory App!</p>
-    </Layout>
+    <ThemeProvider theme={theme}>
+      <ExpansionProvider>
+        <Layout>
+          <InventoryPage />
+        </Layout>
+      </ExpansionProvider>
+    </ThemeProvider>
   );
 };
 

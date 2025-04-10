@@ -19,21 +19,20 @@ interface LayoutProps {
 // The fixed width of your sidebar
 const drawerWidth = 150;
 
-// Define a type for the menu item (if needed, e.g., for additional properties)
 interface MenuItem {
+  id: number;
   label: string;
-  // you can add more fields later if required, such as a 'path', 'icon', etc.
 }
 
 const menuItems: MenuItem[] = [
-  { label: "Item Library" },
-  { label: "Categories" },
-  { label: "Image Library" },
-  { label: "Units" },
-  { label: "Modifiers" },
-  { label: "Discounts" },
-  { label: "Custom Attributes" },
-  { label: "Settings" },
+  { id: 1, label: "Item Library" },
+  { id: 2, label: "Categories" },
+  { id: 3, label: "Image Library" },
+  { id: 4, label: "Units" },
+  { id: 5, label: "Modifiers" },
+  { id: 6, label: "Discounts" },
+  { id: 7, label: "Custom Attributes" },
+  { id: 8, label: "Settings" },
 ];
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
