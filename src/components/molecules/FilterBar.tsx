@@ -1,4 +1,3 @@
-// src/components/molecules/FilterBar.tsx
 import {
   Box,
   Button,
@@ -8,9 +7,14 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import DialogComponent from "./DialogComponent";
 
 const FilterBar: React.FC = () => {
+  const [isCreateItemClicked, setIsCreateItemClicked] = useState(false);
+  const onCreateItemClick = () => {
+    setIsCreateItemClicked(true);
+  };
   return (
     <Box
       sx={{
@@ -67,10 +71,15 @@ const FilterBar: React.FC = () => {
       {/* Right-Aligned Buttons */}
       <Box sx={{ ml: "auto", display: "flex", gap: 2 }}>
         <Button variant="outlined">Actions</Button>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={onCreateItemClick}>
           Create Item
         </Button>
       </Box>
+      <DialogComponent
+        open={isCreateItemClicked}
+        onClose={() => setIsCreateItemClicked(false)}
+        title="Create Item"
+      />
     </Box>
   );
 };
