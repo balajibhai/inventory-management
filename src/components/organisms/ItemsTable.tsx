@@ -7,12 +7,10 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { JSX } from "react";
+import { useSelector } from "react-redux";
 import { useExpansion } from "../../context/ExpansionContext";
-import {
-  categories,
-  CategoryData,
-  SubcategoryData,
-} from "../../data/categories";
+import { RootState } from "../../redux/store";
+import { CategoryData, SubcategoryData } from "../../types";
 import CategoryRow from "../CategoryRow";
 
 /**
@@ -47,6 +45,9 @@ const getDescendantKeysForSubcategory = (
 
 const ItemsTable: React.FC = () => {
   const { expanded } = useExpansion();
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories
+  );
 
   return (
     <Paper sx={{ width: "100%", overflowX: "auto", mt: 2 }}>
