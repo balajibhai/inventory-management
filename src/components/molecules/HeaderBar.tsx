@@ -1,39 +1,49 @@
 // src/components/molecules/HeaderBar.tsx
+import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, IconButton, Toolbar } from "@mui/material";
 import React from "react";
+import Text from "../atoms/Text";
 
 interface HeaderBarProps {
   title: string;
-  onHamburgerClick?: () => void;
+  onClick?: () => void;
+  pageType?: string;
+  icon: keyof typeof ICON_MAP;
 }
 
-const HeaderBar: React.FC<HeaderBarProps> = ({ title, onHamburgerClick }) => {
+const ICON_MAP = {
+  Menu: MenuIcon,
+  Close: CloseIcon,
+};
+
+const HeaderBar: React.FC<HeaderBarProps> = (props: HeaderBarProps) => {
+  const { title, onClick, pageType, icon } = props;
+  const Component = ICON_MAP[icon];
   return (
     <AppBar
       position="fixed"
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
     >
       <Toolbar>
-        {/* Hamburger Icon */}
         <IconButton
           edge="start"
           color="inherit"
-          onClick={onHamburgerClick}
+          onClick={onClick}
           sx={{ mr: 2 }}
         >
-          <MenuIcon />
+          <Component />
         </IconButton>
 
         {/* Title */}
-        <Typography variant="h6" noWrap component="div">
-          {title}
-        </Typography>
+        <Text content={title} variant="h6" />
 
         {/* If you need a profile/icon on the right, place it here */}
-        <IconButton color="inherit" sx={{ ml: "auto" }}>
-          Profile Icon
-        </IconButton>
+        {pageType === "Home" && (
+          <IconButton color="inherit" sx={{ ml: "auto" }}>
+            Profile Icon
+          </IconButton>
+        )}
       </Toolbar>
     </AppBar>
   );

@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import Text from "../atoms/Text";
 import CheckboxWithLabel from "../molecules/CheckboxWithLabel";
@@ -16,7 +6,6 @@ import Dropdown from "../molecules/Dropdown";
 
 const DetailsForm: React.FC = () => {
   // State for the form fields
-  const [itemType, setItemType] = useState<string>("physical"); // 'physical' or 'digital'
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const categoryOptions = [
@@ -29,12 +18,11 @@ const DetailsForm: React.FC = () => {
     { value: "location1", label: "Location 1" },
     { value: "location2", label: "Location 2" },
   ];
+  const itemTypeOptions = [
+    { value: "physicalgood", label: "Physical good" },
+    { value: "digitalgood", label: "Digital good" },
+  ];
   const unitOptions = [{ value: "", label: "All" }];
-
-  // Handler for changing the item type
-  const handleItemTypeChange = (event: SelectChangeEvent) => {
-    setItemType(event.target.value as string);
-  };
 
   // Handler for auto-creating the name
   const handleAutoCreateName = () => {
@@ -54,24 +42,10 @@ const DetailsForm: React.FC = () => {
       }}
     >
       {/* Title */}
-      <Typography variant="h6" gutterBottom>
-        Details
-      </Typography>
+      <Text content="Details" variant="h6" />
 
       {/* Item Type */}
-      <FormControl fullWidth>
-        <InputLabel id="item-type-label">Item type</InputLabel>
-        <Select
-          labelId="item-type-label"
-          id="item-type"
-          value={itemType}
-          label="Item type"
-          onChange={handleItemTypeChange}
-        >
-          <MenuItem value="physical">Physical good</MenuItem>
-          <MenuItem value="digital">Digital good</MenuItem>
-        </Select>
-      </FormControl>
+      <Dropdown label="Item type" options={itemTypeOptions} />
 
       {/* Name + Auto create button */}
       <Box display="flex" gap={2}>

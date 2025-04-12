@@ -1,16 +1,8 @@
-import CloseIcon from "@mui/icons-material/Close";
-import {
-  AppBar,
-  Container,
-  Dialog,
-  IconButton,
-  Slide,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Container, Dialog, Slide } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import React from "react";
 import DetailsForm from "../organisms/DetailsForm";
+import HeaderBar from "./HeaderBar";
 
 // Transition component for the full-screen dialog
 const Transition = React.forwardRef(function Transition(
@@ -23,13 +15,13 @@ const Transition = React.forwardRef(function Transition(
 export interface DialogComponentProps {
   open: boolean;
   onClose: () => void;
-  title?: string;
+  title: string;
 }
 
 const DialogComponent: React.FC<DialogComponentProps> = (
   props: DialogComponentProps
 ) => {
-  const { open, onClose, title = "Create Item" } = props;
+  const { open, onClose, title } = props;
 
   return (
     <Dialog
@@ -38,23 +30,7 @@ const DialogComponent: React.FC<DialogComponentProps> = (
       onClose={onClose}
       TransitionComponent={Transition}
     >
-      <AppBar sx={{ position: "relative" }}>
-        <Toolbar>
-          {/* Close button */}
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={onClose}
-            aria-label="close"
-          >
-            <CloseIcon />
-          </IconButton>
-          {/* Title */}
-          <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-            {title}
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <HeaderBar title={title} icon="Close" onClick={onClose} />
 
       {/* Content of the new "page" */}
       <Container sx={{ mt: 2 }}>{<DetailsForm />}</Container>
