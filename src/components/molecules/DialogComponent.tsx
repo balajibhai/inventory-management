@@ -9,7 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import React, { ReactNode } from "react";
+import React from "react";
+import DetailsForm from "../organisms/DetailsForm";
 
 // Transition component for the full-screen dialog
 const Transition = React.forwardRef(function Transition(
@@ -23,15 +24,13 @@ export interface DialogComponentProps {
   open: boolean;
   onClose: () => void;
   title?: string;
-  children?: ReactNode;
 }
 
-const DialogComponent: React.FC<DialogComponentProps> = ({
-  open,
-  onClose,
-  title = "Page Title",
-  children,
-}) => {
+const DialogComponent: React.FC<DialogComponentProps> = (
+  props: DialogComponentProps
+) => {
+  const { open, onClose, title = "Create Item" } = props;
+
   return (
     <Dialog
       fullScreen
@@ -58,14 +57,7 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
       </AppBar>
 
       {/* Content of the new "page" */}
-      <Container sx={{ mt: 2 }}>
-        {children || (
-          <Typography variant="body1">
-            This is the content of the full-screen page. You can add any
-            information or components here.
-          </Typography>
-        )}
-      </Container>
+      <Container sx={{ mt: 2 }}>{<DetailsForm />}</Container>
     </Dialog>
   );
 };
