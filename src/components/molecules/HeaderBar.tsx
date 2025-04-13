@@ -1,7 +1,7 @@
 // src/components/molecules/HeaderBar.tsx
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, IconButton, Toolbar } from "@mui/material";
+import { AppBar, Button, IconButton, Toolbar } from "@mui/material";
 import React from "react";
 import Text from "../atoms/Text";
 
@@ -43,6 +43,11 @@ const HeaderBar: React.FC<HeaderBarProps> = (props: HeaderBarProps) => {
           <IconButton color="inherit" sx={{ ml: "auto" }}>
             Profile Icon
           </IconButton>
+        )}
+        {pageType === "createitem" && (
+          <Button variant="contained" color="success" sx={{ ml: "auto" }}>
+            Save
+          </Button>
         )}
       </Toolbar>
     </AppBar>

@@ -30,7 +30,12 @@ const DialogComponent: React.FC<DialogComponentProps> = (
       onClose={onClose}
       TransitionComponent={Transition}
     >
-      <HeaderBar title={title} icon="Close" onClick={onClose} />
+      <HeaderBar
+        title={title}
+        icon="Close"
+        onClick={onClose}
+        pageType="createitem"
+      />
 
       {/* Content of the new "page" */}
       <Container sx={{ mt: 2 }}>{<DetailsForm />}</Container>

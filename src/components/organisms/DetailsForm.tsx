@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import Text from "../atoms/Text";
 import CheckboxWithLabel from "../molecules/CheckboxWithLabel";
 import Dropdown from "../molecules/Dropdown";
+import PopupDialog from "./PopupDialog";
 
 const DetailsForm: React.FC = () => {
   // State for the form fields
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [isVarianceClicked, setIsVarianceClicked] = useState<boolean>(false);
   const categoryOptions = [
     { value: "", label: "All" },
     { value: "flowers", label: "Flowers" },
@@ -24,10 +26,8 @@ const DetailsForm: React.FC = () => {
   ];
   const unitOptions = [{ value: "", label: "All" }];
 
-  // Handler for auto-creating the name
-  const handleAutoCreateName = () => {
-    // Here you can implement any logic for auto-generating a name
-    setName("My Auto-Created Item");
+  const onVarianceClick = () => {
+    setIsVarianceClicked(!isVarianceClicked);
   };
 
   return (
@@ -56,9 +56,7 @@ const DetailsForm: React.FC = () => {
           onChange={(e) => setName(e.target.value)}
           fullWidth
         />
-        <Button variant="outlined" onClick={handleAutoCreateName}>
-          Auto create
-        </Button>
+        <Button variant="outlined">Edit</Button>
       </Box>
 
       {/* Description text field */}
@@ -91,7 +89,7 @@ const DetailsForm: React.FC = () => {
         <Button variant="contained" color="primary">
           + Custom Attributes
         </Button>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={onVarianceClick}>
           + Variations
         </Button>
       </Box>
@@ -118,6 +116,7 @@ const DetailsForm: React.FC = () => {
           />
         </div>
       </Box>
+      <PopupDialog open={isVarianceClicked} onClose={onVarianceClick} />
     </Box>
   );
 };
