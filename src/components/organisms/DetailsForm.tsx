@@ -1,15 +1,38 @@
 import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { FormData } from "../../types";
 import Text from "../atoms/Text";
 import CheckboxWithLabel from "../molecules/CheckboxWithLabel";
 import Dropdown from "../molecules/Dropdown";
 import PopupDialog from "./PopupDialog";
 
 const DetailsForm: React.FC = () => {
-  // State for the form fields
-  const [name, setName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  // Initial form data state
+  const [formData, setFormData] = useState<FormData>({
+    itemType: "",
+    name: "",
+    description: "",
+    nonTaxable: false,
+    statusInactive: false,
+    location: "",
+    unit: "",
+    category: "",
+    sku: "",
+    price: "",
+    weight: "",
+    tracking: false,
+  });
+
   const [isVarianceClicked, setIsVarianceClicked] = useState<boolean>(false);
+
+  // Helper function to update form data
+  const updateFormData = (field: keyof FormData, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
   const categoryOptions = [
     { value: "", label: "All" },
     { value: "flowers", label: "Flowers" },
@@ -30,6 +53,13 @@ const DetailsForm: React.FC = () => {
     setIsVarianceClicked(!isVarianceClicked);
   };
 
+  const onItemPropertyChange = (
+    type: keyof FormData,
+    value: string | boolean
+  ) => {
+    updateFormData(type, value);
+  };
+
   return (
     <Box
       sx={{
@@ -45,15 +75,21 @@ const DetailsForm: React.FC = () => {
       <Text content="Details" variant="h6" />
 
       {/* Item Type */}
-      <Dropdown label="Item type" options={itemTypeOptions} />
+      <Dropdown
+        label="Item type"
+        options={itemTypeOptions}
+        onChange={onItemPropertyChange}
+        type="itemType"
+        value={formData.itemType}
+      />
 
       {/* Name + Auto create button */}
       <Box display="flex" gap={2}>
         <TextField
           label="Name (required)"
           required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={formData.name}
+          onChange={(e) => updateFormData("name", e.target.value)}
           fullWidth
         />
         <Button variant="outlined">Edit</Button>
@@ -64,23 +100,64 @@ const DetailsForm: React.FC = () => {
         label="Description"
         multiline
         rows={4}
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        value={formData.description}
+        onChange={(e) => updateFormData("description", e.target.value)}
         fullWidth
       />
       <div>
-        <CheckboxWithLabel label="Non-taxable" />
-        <CheckboxWithLabel label="Status-in-Active" />
+        <CheckboxWithLabel
+          label="Non-taxable"
+          checkboxType="nonTaxable"
+          onCheck={onItemPropertyChange}
+        />
+        <CheckboxWithLabel
+          label="Status-in-Active"
+          checkboxType="statusInactive"
+          onCheck={onItemPropertyChange}
+        />
       </div>
       <div>
-        <Dropdown label="Locations" options={locationsOptions} />
-        <Dropdown label="Unit" options={unitOptions} />
-        <Dropdown label="Category" options={categoryOptions} />
+        <Dropdown
+          label="Locations"
+          options={locationsOptions}
+          value={formData.location}
+          type="location"
+          onChange={onItemPropertyChange}
+        />
+        <Dropdown
+          label="Unit"
+          options={unitOptions}
+          value={formData.unit}
+          type="unit"
+          onChange={onItemPropertyChange}
+        />
+        <Dropdown
+          label="Category"
+          options={categoryOptions}
+          value={formData.category}
+          type="category"
+          onChange={onItemPropertyChange}
+        />
       </div>
       <Box display="flex" gap={2}>
-        <TextField label="SKU" required />
-        <TextField label="Price" required />
-        <TextField label="Weight" required />
+        <TextField
+          label="SKU"
+          required
+          value={formData.sku}
+          onChange={(e) => updateFormData("sku", e.target.value)}
+        />
+        <TextField
+          label="Price"
+          required
+          value={formData.price}
+          onChange={(e) => updateFormData("price", e.target.value)}
+        />
+        <TextField
+          label="Weight"
+          required
+          value={formData.weight}
+          onChange={(e) => updateFormData("weight", e.target.value)}
+        />
       </Box>
       <Box display="flex" gap={2}>
         <Button variant="contained" color="primary">
@@ -94,7 +171,11 @@ const DetailsForm: React.FC = () => {
         </Button>
       </Box>
       <Box display="flex" gap={2}>
-        <CheckboxWithLabel label="Tracking" />
+        <CheckboxWithLabel
+          label="Tracking"
+          checkboxType="tracking"
+          onCheck={onItemPropertyChange}
+        />
         <div
           style={{
             display: "flex",
