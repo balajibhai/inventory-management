@@ -5,7 +5,7 @@ export interface ItemData {
 
 export interface SubcategoryData {
   name: string;
-  items: ItemData[];
+  items: FormData[];
 }
 
 export interface CategoryData {
@@ -21,9 +21,13 @@ export interface FormData {
   statusInactive: boolean;
   location: string;
   unit: string;
-  category: string;
+  category?: string;
   sku: string;
   price: string;
   weight: string;
   tracking: boolean;
+}
+
+export interface CategoriesState {
+  categories: CategoryData[];
 }
