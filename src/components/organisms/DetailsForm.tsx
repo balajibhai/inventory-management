@@ -1,37 +1,21 @@
 import { Box, Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FormData } from "../../types";
 import Text from "../atoms/Text";
 import CheckboxWithLabel from "../molecules/CheckboxWithLabel";
 import Dropdown from "../molecules/Dropdown";
 import PopupDialog from "./PopupDialog";
 
-const DetailsForm: React.FC = () => {
+type DetailsFormProps = {
+  onItemPropertyChange: (type: keyof FormData, value: string | boolean) => void;
+  formData: FormData;
+};
+
+const DetailsForm = (props: DetailsFormProps) => {
+  const { onItemPropertyChange, formData } = props;
   // Initial form data state
-  const [formData, setFormData] = useState<FormData>({
-    itemType: "",
-    name: "",
-    description: "",
-    nonTaxable: false,
-    statusInactive: false,
-    location: "",
-    unit: "",
-    category: "",
-    sku: "",
-    price: "",
-    weight: "",
-    tracking: false,
-  });
 
   const [isVarianceClicked, setIsVarianceClicked] = useState<boolean>(false);
-
-  // Helper function to update form data
-  const updateFormData = (field: keyof FormData, value: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
 
   const categoryOptions = [
     { value: "", label: "All" },
@@ -51,13 +35,6 @@ const DetailsForm: React.FC = () => {
 
   const onVarianceClick = () => {
     setIsVarianceClicked(!isVarianceClicked);
-  };
-
-  const onItemPropertyChange = (
-    type: keyof FormData,
-    value: string | boolean
-  ) => {
-    updateFormData(type, value);
   };
 
   return (
@@ -89,7 +66,7 @@ const DetailsForm: React.FC = () => {
           label="Name (required)"
           required
           value={formData.name}
-          onChange={(e) => updateFormData("name", e.target.value)}
+          onChange={(e) => onItemPropertyChange("name", e.target.value)}
           fullWidth
         />
         <Button variant="outlined">Edit</Button>
@@ -101,7 +78,7 @@ const DetailsForm: React.FC = () => {
         multiline
         rows={4}
         value={formData.description}
-        onChange={(e) => updateFormData("description", e.target.value)}
+        onChange={(e) => onItemPropertyChange("description", e.target.value)}
         fullWidth
       />
       <div>
@@ -144,19 +121,19 @@ const DetailsForm: React.FC = () => {
           label="SKU"
           required
           value={formData.sku}
-          onChange={(e) => updateFormData("sku", e.target.value)}
+          onChange={(e) => onItemPropertyChange("sku", e.target.value)}
         />
         <TextField
           label="Price"
           required
           value={formData.price}
-          onChange={(e) => updateFormData("price", e.target.value)}
+          onChange={(e) => onItemPropertyChange("price", e.target.value)}
         />
         <TextField
           label="Weight"
           required
           value={formData.weight}
-          onChange={(e) => updateFormData("weight", e.target.value)}
+          onChange={(e) => onItemPropertyChange("weight", e.target.value)}
         />
       </Box>
       <Box display="flex" gap={2}>

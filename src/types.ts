@@ -31,3 +31,8 @@ export interface FormData {
 export interface CategoriesState {
   categories: CategoryData[];
 }
+
+export interface NewItemPayload extends FormData {
+  category: string;
+  subcategory?: string;
+}

@@ -7,7 +7,8 @@ import Text from "../atoms/Text";
 
 interface HeaderBarProps {
   title: string;
-  onClick?: () => void;
+  onClose?: () => void;
+  onSave?: () => void;
   pageType?: string;
   icon: keyof typeof ICON_MAP;
 }
@@ -18,7 +19,7 @@ const ICON_MAP = {
 };
 
 const HeaderBar: React.FC<HeaderBarProps> = (props: HeaderBarProps) => {
-  const { title, onClick, pageType, icon } = props;
+  const { title, onClose, pageType, icon, onSave } = props;
   const Component = ICON_MAP[icon];
   return (
     <AppBar
@@ -29,7 +30,7 @@ const HeaderBar: React.FC<HeaderBarProps> = (props: HeaderBarProps) => {
         <IconButton
           edge="start"
           color="inherit"
-          onClick={onClick}
+          onClick={onClose}
           sx={{ mr: 2 }}
         >
           <Component />
@@ -45,7 +46,12 @@ const HeaderBar: React.FC<HeaderBarProps> = (props: HeaderBarProps) => {
           </IconButton>
         )}
         {pageType === "createitem" && (
-          <Button variant="contained" color="success" sx={{ ml: "auto" }}>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{ ml: "auto" }}
+            onClick={onSave}
+          >
             Save
           </Button>
         )}

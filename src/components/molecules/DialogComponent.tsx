@@ -1,6 +1,9 @@
 import { Container, Dialog, Slide } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../redux/categories/categoriesSlice";
+import { FormData, NewItemPayload } from "../../types";
 import DetailsForm from "../organisms/DetailsForm";
 import HeaderBar from "./HeaderBar";
 
@@ -22,6 +25,33 @@ const DialogComponent: React.FC<DialogComponentProps> = (
   props: DialogComponentProps
 ) => {
   const { open, onClose, title } = props;
+  const [formData, setFormData] = useState<NewItemPayload>({
+    itemType: "",
+    name: "",
+    description: "",
+    nonTaxable: false,
+    statusInactive: false,
+    location: "",
+    unit: "",
+    category: "",
+    sku: "",
+    price: "",
+    weight: "",
+    tracking: false,
+  });
+  const dispatch = useDispatch();
+
+  // Helper function to update form data
+  const updateFormData = (field: keyof FormData, value: string | boolean) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const onSave = () => {
+    dispatch(addItem(formData));
+  };
 
   return (
     <Dialog
@@ -33,12 +63,20 @@ const DialogComponent: React.FC<DialogComponentProps> = (
       <HeaderBar
         title={title}
         icon="Close"
-        onClick={onClose}
+        onClose={onClose}
+        onSave={onSave}
         pageType="createitem"
       />
 
       {/* Content of the new "page" */}
-      <Container sx={{ mt: 2 }}>{<DetailsForm />}</Container>
+      <Container sx={{ mt: 2 }}>
+        {
+          <DetailsForm
+            onItemPropertyChange={updateFormData}
+            formData={formData}
+          />
+        }
+      </Container>
     </Dialog>
   );
 };

@@ -1,14 +1,10 @@
 // src/features/categories/categoriesSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CategoriesState, CategoryData, FormData } from "../../types";
+import { CategoriesState, CategoryData, NewItemPayload } from "../../types";
 import { initialCategories } from "./initialCategoriesState";
 
 // Define the payload interface for adding a new item.
 // The new item includes a required "category" and an optional "subcategory".
-interface NewItemPayload extends FormData {
-  category: string;
-  subcategory?: string;
-}
 
 const initialState: CategoriesState = {
   categories: initialCategories,
