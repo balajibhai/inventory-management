@@ -3,9 +3,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CategoriesState, CategoryData, NewItemPayload } from "../../types";
 import { initialCategories } from "./initialCategoriesState";
 
-// Define the payload interface for adding a new item.
-// The new item includes a required "category" and an optional "subcategory".
-
 const initialState: CategoriesState = {
   categories: initialCategories,
 };
@@ -14,64 +11,64 @@ const categoriesSlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
-    // Reducer to add an item into a given category and subcategory.
     addItem: (state, action: PayloadAction<NewItemPayload>) => {
-      const newItem = action.payload;
-      const categoryName = newItem.category;
-      // Extract and remove "category" and "subcategory" fields.
-      const { category, subcategory, ...itemWithoutCategory } = newItem;
+      const { category, subcategory, ...item } = action.payload;
+      const foundCategory = state.categories.find((c) => c.name === category);
 
-      // Helper function to add an item into a category's subcategory.
-      const addToCategory = (cat: CategoryData) => {
-        if (subcategory && subcategory.trim() !== "") {
-          // Look for the provided subcategory in the category.
-          const foundSubcat = cat.subcategories.find(
-            (sc) => sc.name === subcategory
-          );
-          if (foundSubcat) {
-            foundSubcat.items.push(itemWithoutCategory);
-          } else {
-            // If the provided subcategory doesn't exist, create a default subcategory.
+      const addTo = (cat: CategoryData) => {
+        if (subcategory && subcategory.trim()) {
+          const sub = cat.subcategories.find((s) => s.name === subcategory);
+          if (sub) sub.items.push(item);
+          else
             cat.subcategories.push({
               name: "Default Subcategory",
-              items: [itemWithoutCategory],
+              items: [item],
             });
-          }
         } else {
-          // If no subcategory is provided.
           if (cat.subcategories.length > 0) {
-            // Add to the first available subcategory.
-            cat.subcategories[0].items.push(itemWithoutCategory);
+            cat.subcategories[0].items.push(item);
           } else {
-            // Create a default subcategory and add the item.
             cat.subcategories.push({
               name: "Default Subcategory",
-              items: [itemWithoutCategory],
+              items: [item],
             });
           }
         }
       };
 
-      // Check if the category exists.
-      const foundCategory = state.categories.find(
-        (cat) => cat.name === categoryName
+      if (foundCategory) {
+        addTo(foundCategory);
+      } else {
+        const newCat: CategoryData = { name: category, subcategories: [] };
+        addTo(newCat);
+        state.categories.push(newCat);
+      }
+    },
+
+    // --- new reducer to delete by name at ANY level ---
+    removeByName: (state, action: PayloadAction<string>) => {
+      const nameToDelete = action.payload;
+
+      // 1) remove matching top-level categories
+      state.categories = state.categories.filter(
+        (cat) => cat.name !== nameToDelete
       );
 
-      if (foundCategory) {
-        // If the category exists, add the item using the helper function.
-        addToCategory(foundCategory);
-      } else {
-        // If the category doesn't exist, create a new category and add the item.
-        const newCategory: CategoryData = {
-          name: categoryName,
-          subcategories: [],
-        };
-        addToCategory(newCategory);
-        state.categories.push(newCategory);
-      }
+      // 2) within each remaining category...
+      state.categories.forEach((cat) => {
+        // remove matching subcategories
+        cat.subcategories = cat.subcategories.filter(
+          (sub) => sub.name !== nameToDelete
+        );
+
+        // 3) within each subcategory, remove matching items
+        cat.subcategories.forEach((sub) => {
+          sub.items = sub.items.filter((item) => item.name !== nameToDelete);
+        });
+      });
     },
   },
 });
 
-export const { addItem } = categoriesSlice.actions;
+export const { addItem, removeByName } = categoriesSlice.actions;
 export default categoriesSlice.reducer;

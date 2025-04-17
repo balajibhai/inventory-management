@@ -2,8 +2,10 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Checkbox, IconButton, TableCell, TableRow } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useExpansion } from "../context/ExpansionContext";
 import { useSelection } from "../context/SelectionContext";
+import { removeByName } from "../redux/categories/categoriesSlice";
 import OptionsMenu from "./molecules/OptionsMenu";
 
 interface CategoryRowProps {
@@ -26,15 +28,14 @@ const CategoryRow: React.FC<CategoryRowProps> = ({
   const isExpanded = expanded[expandKey] || false;
   const isSelected = selected[expandKey] || false;
   const paddingLeft = `${level * 20}px`;
+  const dispatch = useDispatch();
 
   const handleEdit = () => {
-    // your edit logic
     console.log("Edit clicked");
   };
 
   const handleDelete = () => {
-    // your delete logic
-    console.log("Delete clicked", label);
+    dispatch(removeByName(label));
   };
 
   return (
