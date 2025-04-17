@@ -2,11 +2,11 @@ import { TableCell, TableHead, TableRow } from "@mui/material";
 
 const tableHeaders = [
   "Item",
-  "Reporting Category",
-  "Locations",
-  "Sold By",
+  "Location",
+  "Unit",
   "Stock on Hand",
   "Available to Sell",
+  "ROP",
   "Price",
 ];
 

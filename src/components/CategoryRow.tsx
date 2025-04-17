@@ -4,6 +4,7 @@ import { Checkbox, IconButton, TableCell, TableRow } from "@mui/material";
 import React from "react";
 import { useExpansion } from "../context/ExpansionContext";
 import { useSelection } from "../context/SelectionContext";
+import OptionsMenu from "./molecules/OptionsMenu";
 
 interface CategoryRowProps {
   label: string;
@@ -25,6 +26,16 @@ const CategoryRow: React.FC<CategoryRowProps> = ({
   const isExpanded = expanded[expandKey] || false;
   const isSelected = selected[expandKey] || false;
   const paddingLeft = `${level * 20}px`;
+
+  const handleEdit = () => {
+    // your edit logic
+    console.log("Edit clicked");
+  };
+
+  const handleDelete = () => {
+    // your delete logic
+    console.log("Delete clicked", label);
+  };
 
   return (
     <TableRow>
@@ -49,6 +60,9 @@ const CategoryRow: React.FC<CategoryRowProps> = ({
       <TableCell>0</TableCell>
       <TableCell>0</TableCell>
       <TableCell>$0.00</TableCell>
+      <TableCell>
+        <OptionsMenu onEdit={handleEdit} onDelete={handleDelete} />
+      </TableCell>
     </TableRow>
   );
 };
