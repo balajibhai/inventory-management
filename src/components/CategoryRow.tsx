@@ -3,6 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Checkbox, IconButton, TableCell, TableRow } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useEdit } from "../context/EditItemContext";
 import { useExpansion } from "../context/ExpansionContext";
 import { useSelection } from "../context/SelectionContext";
 import { removeByName } from "../redux/categories/categoriesSlice";
@@ -29,10 +30,7 @@ const CategoryRow: React.FC<CategoryRowProps> = ({
   const isSelected = selected[expandKey] || false;
   const paddingLeft = `${level * 20}px`;
   const dispatch = useDispatch();
-
-  const handleEdit = () => {
-    console.log("Edit clicked");
-  };
+  const { openEdit } = useEdit();
 
   const handleDelete = () => {
     dispatch(removeByName(label));
@@ -62,7 +60,7 @@ const CategoryRow: React.FC<CategoryRowProps> = ({
       <TableCell>0</TableCell>
       <TableCell>$0.00</TableCell>
       <TableCell>
-        <OptionsMenu onEdit={handleEdit} onDelete={handleDelete} />
+        <OptionsMenu onEdit={() => openEdit(label)} onDelete={handleDelete} />
       </TableCell>
     </TableRow>
   );
