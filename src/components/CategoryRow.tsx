@@ -60,7 +60,11 @@ const CategoryRow: React.FC<CategoryRowProps> = ({
       <TableCell>0</TableCell>
       <TableCell>$0.00</TableCell>
       <TableCell>
-        <OptionsMenu onEdit={() => openEdit(label)} onDelete={handleDelete} />
+        <OptionsMenu
+          onEdit={() => openEdit(label)}
+          onDelete={handleDelete}
+          haveChildren={descendantKeys.length > 0}
+        />
       </TableCell>
     </TableRow>
   );

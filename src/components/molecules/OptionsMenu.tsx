@@ -8,9 +8,11 @@ import React from "react";
 interface OptionsMenuProps {
   onEdit: () => void;
   onDelete: () => void;
+  haveChildren: boolean;
 }
 
-const OptionsMenu: React.FC<OptionsMenuProps> = ({ onEdit, onDelete }) => {
+const OptionsMenu: React.FC<OptionsMenuProps> = (props: OptionsMenuProps) => {
+  const { onEdit, onDelete, haveChildren } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -57,7 +59,7 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({ onEdit, onDelete }) => {
           },
         }}
       >
-        <MenuItem onClick={handleEdit}>Edit</MenuItem>
+        {!haveChildren && <MenuItem onClick={handleEdit}>Edit</MenuItem>}
         <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
     </>
