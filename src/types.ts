@@ -21,22 +21,17 @@ export interface FormData {
   statusInactive: boolean;
   location: string;
   unit: string;
-  category?: string;
+  category: string;
   sku: string;
   price: string;
   weight: string;
   tracking: boolean;
+  subcategory: string;
 }
 
 export interface CategoriesState {
   categories: CategoryData[];
 }
-
-export interface NewItemPayload extends FormData {
-  category: string;
-  subcategory?: string;
-}
-
 export interface EditDialogue {
   item: FormData;
   category: string;

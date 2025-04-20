@@ -3,7 +3,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../redux/categories/categoriesSlice";
-import { FormData, NewItemPayload } from "../../types";
+import { FormData } from "../../types";
 import DetailsForm from "../organisms/DetailsForm";
 import HeaderBar from "./HeaderBar";
 
@@ -26,20 +26,8 @@ const DialogComponent: React.FC<DialogComponentProps> = (
   props: DialogComponentProps
 ) => {
   const { open, onClose, title, currentData } = props;
-  const [formData, setFormData] = useState<NewItemPayload>({
-    itemType: "",
-    name: "",
-    description: "",
-    nonTaxable: false,
-    statusInactive: false,
-    location: "",
-    unit: "",
-    category: "",
-    sku: "",
-    price: "",
-    weight: "",
-    tracking: false,
-  });
+  const [formData, setFormData] = useState<FormData>(currentData);
+  console.log("formData: ", formData);
   const dispatch = useDispatch();
 
   // Helper function to update form data

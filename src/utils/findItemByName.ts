@@ -9,7 +9,7 @@ export function findItemByName(categories: CategoryData[], itemName: string) {
     for (const sub of category.subcategories ?? []) {
       const item = sub.items.find((i) => i.name === itemName);
       if (item) {
-        return { item, category: category.name, subcategory: sub.name };
+        return { ...item, subcategory: sub.name };
       }
     }
   }

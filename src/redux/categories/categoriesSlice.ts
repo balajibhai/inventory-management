@@ -1,6 +1,6 @@
 // src/features/categories/categoriesSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CategoriesState, CategoryData, NewItemPayload } from "../../types";
+import { CategoriesState, CategoryData, FormData } from "../../types";
 import { initialCategories } from "./initialCategoriesState";
 
 const initialState: CategoriesState = {
@@ -11,8 +11,9 @@ const categoriesSlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<NewItemPayload>) => {
-      const { category, subcategory, ...item } = action.payload;
+    addItem: (state, action: PayloadAction<FormData>) => {
+      const { category, subcategory } = action.payload;
+      const item = action.payload;
       const foundCategory = state.categories.find((c) => c.name === category);
 
       const addTo = (cat: CategoryData) => {

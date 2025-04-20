@@ -1,7 +1,7 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { EditDialogue } from "../types";
+import { FormData } from "../types";
 import { findItemByName } from "../utils/findItemByName";
 
 // Define the shape of the context
@@ -22,20 +22,18 @@ export const EditItemProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const [currentData, setCurrentData] = useState<EditDialogue>({
-    item: {
-      itemType: "",
-      name: "",
-      description: "",
-      nonTaxable: false,
-      statusInactive: false,
-      location: "",
-      unit: "",
-      sku: "",
-      price: "",
-      weight: "",
-      tracking: false,
-    },
+  const [currentData, setCurrentData] = useState<FormData>({
+    itemType: "",
+    name: "",
+    description: "",
+    nonTaxable: false,
+    statusInactive: false,
+    location: "",
+    unit: "",
+    sku: "",
+    price: "",
+    weight: "",
+    tracking: false,
     category: "",
     subcategory: "",
   });
