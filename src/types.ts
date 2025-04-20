@@ -36,3 +36,9 @@ export interface NewItemPayload extends FormData {
   category: string;
   subcategory?: string;
 }
+
+export interface EditDialogue {
+  item: FormData;
+  category: string;
+  subcategory: string;
+}

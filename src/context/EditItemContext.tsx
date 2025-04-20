@@ -1,11 +1,15 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { EditDialogue } from "../types";
+import { findItemByName } from "../utils/findItemByName";
 
 // Define the shape of the context
 interface EditItemContextProps {
   isEditOpen: boolean;
-  selectedId: string | number | null;
-  openEdit: (id: string | number) => void;
+  openEdit: (id: string) => void;
   closeEdit: () => void;
+  currentData: any;
 }
 
 // Create the context
@@ -18,22 +22,46 @@ export const EditItemProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | number | null>(null);
+  const [currentData, setCurrentData] = useState<EditDialogue>({
+    item: {
+      itemType: "",
+      name: "",
+      description: "",
+      nonTaxable: false,
+      statusInactive: false,
+      location: "",
+      unit: "",
+      sku: "",
+      price: "",
+      weight: "",
+      tracking: false,
+    },
+    category: "",
+    subcategory: "",
+  });
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories
+  );
 
-  const openEdit = (id: string | number) => {
-    console.log("Edit clicked for id:", id);
-    setSelectedId(id);
-    setIsEditOpen(true);
+  const openEdit = (id: string) => {
+    const data = findItemByName(categories, id); // type: EditDialogue | undefined
+    if (data) {
+      // only update when found
+      setCurrentData(data);
+      setIsEditOpen(true);
+    } else {
+      // optional: show a toast or log an error
+      console.warn(`Item ${id} not found`);
+    }
   };
 
   const closeEdit = () => {
     setIsEditOpen(false);
-    setSelectedId(null);
   };
 
   return (
     <EditItemContext.Provider
-      value={{ isEditOpen, selectedId, openEdit, closeEdit }}
+      value={{ isEditOpen, openEdit, closeEdit, currentData }}
     >
       {children}
     </EditItemContext.Provider>

@@ -19,12 +19,13 @@ export interface DialogComponentProps {
   open: boolean;
   onClose: () => void;
   title: string;
+  currentData?: any;
 }
 
 const DialogComponent: React.FC<DialogComponentProps> = (
   props: DialogComponentProps
 ) => {
-  const { open, onClose, title } = props;
+  const { open, onClose, title, currentData } = props;
   const [formData, setFormData] = useState<NewItemPayload>({
     itemType: "",
     name: "",

@@ -7,8 +7,8 @@ import TableHeader from "../molecules/TableHeader";
 import TableMainContent from "../molecules/TableMainContent";
 
 const ItemsTable: React.FC = () => {
-  const { isEditOpen, closeEdit } = useEdit();
-  console.log("isEditOpen: ", isEditOpen);
+  const { isEditOpen, closeEdit, currentData } = useEdit();
+  console.log("currentData: ", currentData);
   return (
     <div>
       <Paper sx={{ width: "100%", overflowX: "auto", mt: 2 }}>
@@ -21,6 +21,7 @@ const ItemsTable: React.FC = () => {
         open={isEditOpen}
         onClose={closeEdit}
         title="Edit Item"
+        currentData={currentData}
       />
     </div>
   );
