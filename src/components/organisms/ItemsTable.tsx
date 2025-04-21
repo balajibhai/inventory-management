@@ -8,7 +8,6 @@ import TableMainContent from "../molecules/TableMainContent";
 
 const ItemsTable: React.FC = () => {
   const { isEditOpen, closeEdit, currentData } = useEdit();
-  console.log("currentData: ", currentData);
   return (
     <div>
       <Paper sx={{ width: "100%", overflowX: "auto", mt: 2 }}>

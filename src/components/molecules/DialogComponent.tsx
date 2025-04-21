@@ -2,7 +2,7 @@ import { Container, Dialog, Slide } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addItem } from "../../redux/categories/categoriesSlice";
+import { addItem, editItem } from "../../redux/categories/categoriesSlice";
 import { FormData } from "../../types";
 import DetailsForm from "../organisms/DetailsForm";
 import HeaderBar from "./HeaderBar";
@@ -68,7 +68,15 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
   const updateFormData = (field: keyof FormData, value: string | boolean) =>
     setFormData((prev) => ({ ...prev, [field]: value }));
 
-  const onSave = () => dispatch(addItem(formData));
+  const onSave = () => {
+    if (title === "Edit Item" && currentData) {
+      dispatch(
+        editItem({ originalName: currentData.name, updatedItem: formData })
+      );
+    } else {
+      dispatch(addItem(formData));
+    }
+  };
 
   return (
     <Dialog
