@@ -1,71 +1,20 @@
 // src/components/organisms/Layout.tsx
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Toolbar,
-} from "@mui/material";
+import { Box, Toolbar } from "@mui/material";
 import React from "react";
 import FilterBar from "../molecules/FilterBar";
 import HeaderBar from "../molecules/HeaderBar";
+import Sidebar from "../molecules/Sidebar";
 
 interface LayoutProps {
   children?: React.ReactNode;
 }
 
-// The fixed width of your sidebar
-const drawerWidth = 150;
-
-interface MenuItem {
-  id: number;
-  label: string;
-}
-
-const menuItems: MenuItem[] = [
-  { id: 1, label: "Item Library" },
-  { id: 2, label: "Categories" },
-  { id: 3, label: "Image Library" },
-  { id: 4, label: "Units" },
-  { id: 5, label: "Modifiers" },
-  { id: 6, label: "Discounts" },
-  { id: 7, label: "Custom Attributes" },
-  { id: 8, label: "Settings" },
-];
-
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <Box sx={{ display: "flex" }}>
       {/* Header */}
-      <HeaderBar title="Inventory" />
-
-      {/* Sidebar Drawer */}
-      <Drawer
-        variant="persistent"
-        anchor="left"
-        open={true}
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        <Toolbar />
-        <List>
-          {menuItems.map((item, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+      <HeaderBar title="Inventory" pageType="Home" icon="Menu" />
+      <Sidebar />
 
       {/* Main Content Area */}
       <Box

@@ -1,16 +1,28 @@
-// src/components/molecules/FilterBar.tsx
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
-import React from "react";
+import { Box, Button, TextField } from "@mui/material";
+import React, { useState } from "react";
+import DialogComponent from "./DialogComponent";
+import Dropdown from "./Dropdown";
 
 const FilterBar: React.FC = () => {
+  const [isCreateItemClicked, setIsCreateItemClicked] = useState(false);
+  const onCreateItemClick = () => {
+    setIsCreateItemClicked(true);
+  };
+  const categoryOptions = [
+    { value: "", label: "All" },
+    { value: "flowers", label: "Flowers" },
+    { value: "plants", label: "Plants" },
+  ];
+  const locationsOptions = [
+    { value: "", label: "All" },
+    { value: "location1", label: "Location 1" },
+    { value: "location2", label: "Location 2" },
+  ];
+  const statusOptions = [
+    { value: "", label: "Active" },
+    { value: "inactive", label: "Inactive" },
+  ];
+
   return (
     <Box
       sx={{
@@ -29,35 +41,9 @@ const FilterBar: React.FC = () => {
         sx={{ mr: 2 }}
       />
 
-      {/* Category Select */}
-      <FormControl size="small" sx={{ mr: 2, minWidth: 120 }}>
-        <InputLabel>Category</InputLabel>
-        <Select label="Category" defaultValue="">
-          <MenuItem value="">All</MenuItem>
-          {/* Add more categories */}
-          <MenuItem value="flowers">Flowers</MenuItem>
-          <MenuItem value="plants">Plants</MenuItem>
-        </Select>
-      </FormControl>
-
-      {/* Locations Select */}
-      <FormControl size="small" sx={{ mr: 2, minWidth: 120 }}>
-        <InputLabel>Locations</InputLabel>
-        <Select label="Locations" defaultValue="">
-          <MenuItem value="">All</MenuItem>
-          <MenuItem value="location1">Location 1</MenuItem>
-          <MenuItem value="location2">Location 2</MenuItem>
-        </Select>
-      </FormControl>
-
-      {/* Status Select */}
-      <FormControl size="small" sx={{ mr: 2, minWidth: 120 }}>
-        <InputLabel>Status</InputLabel>
-        <Select label="Status" defaultValue="">
-          <MenuItem value="">Active</MenuItem>
-          <MenuItem value="inactive">Inactive</MenuItem>
-        </Select>
-      </FormControl>
+      <Dropdown label="Category" options={categoryOptions} />
+      <Dropdown label="Locations" options={locationsOptions} />
+      <Dropdown label="Status" options={statusOptions} />
 
       {/* All Filters Button */}
       <Button variant="outlined" sx={{ mr: 2 }}>
@@ -67,10 +53,15 @@ const FilterBar: React.FC = () => {
       {/* Right-Aligned Buttons */}
       <Box sx={{ ml: "auto", display: "flex", gap: 2 }}>
         <Button variant="outlined">Actions</Button>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={onCreateItemClick}>
           Create Item
         </Button>
       </Box>
+      <DialogComponent
+        open={isCreateItemClicked}
+        onClose={() => setIsCreateItemClicked(false)}
+        title="Create Item"
+      />
     </Box>
   );
 };
